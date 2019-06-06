@@ -23,15 +23,18 @@ def home(request):
 			print(receiver.email);
 
 			receiverId = requests.get(f'http://localhost:3000/api/users/{receiver.email}')
+			headers = {'x-auth-token': request.COOKIES['x-auth-token']}
+			senderId = requests.get(f'http://localhost:3000/api/users/me', headers=headers)
 			
 			if (receiverId.status_code is not 200):
 				messages.error(request, 'That receiver does does not exist')
 				return redirect('message-home');
 			
 			receiverId = receiverId.json();
+			senderId = senderId.json();
 
 			data = { "message" : message,
-					 "senderId" : "5cf143e4e239700a6ae500dd",
+					 "senderId" : senderId['_id'],
 					 "receiverId" : receiverId['_id']
 				    }
 
