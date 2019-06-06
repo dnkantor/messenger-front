@@ -1,4 +1,19 @@
 {% extends "message/base.html" %}
+{% load crispy_forms_tags %}
+{% block users %}
+	<div>
+	{% for user in allUsers %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <div class="article-metadata">
+		    </div>
+		    <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+		     <small class="text-muted">User Name:{{ user.username }}</small>
+		  </div>
+		</article>
+	{% endfor %}
+	</div>
+{% endblock users %}
 {% block content %}
 	{% for message in allMessages %}
 		<article class="media content-section">
@@ -19,7 +34,7 @@
 		{% csrf_token %}
 		<fieldset class="form-group">
 			<legend class="border-bottom mb-4">Send a Message</legend>
-			{{ sendForm }}
+			{{ sendForm|crispy }}
 		</fieldset>
 		<div class="form-group">
 			<button class="btn btn-outline-info" type="submit">

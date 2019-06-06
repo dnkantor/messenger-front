@@ -13,6 +13,7 @@ def home(request):
 		redirect('login')
 
 	getMessages = requests.get('http://localhost:3000/api/messages')
+	getUsers = User.objects.all()
 
 	if (request.method == 'POST'):
 		form = SendMessageForm(request.POST)
@@ -23,6 +24,7 @@ def home(request):
 			print(receiver.email);
 
 			receiverId = requests.get(f'http://localhost:3000/api/users/{receiver.email}')
+			
 			headers = {'x-auth-token': request.COOKIES['x-auth-token']}
 			senderId = requests.get(f'http://localhost:3000/api/users/me', headers=headers)
 			
@@ -49,7 +51,8 @@ def home(request):
 
 	context = {
 		'sendForm' : form,
-		'allMessages' : getMessages.json()
+		'allMessages' : getMessages.json(),
+		'allUsers' : getUsers
 	}
 
 	return render(request, 'message/home.html', context)

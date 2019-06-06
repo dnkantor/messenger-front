@@ -11,5 +11,4 @@ class SendMessageForm(forms.Form):
 	for value in choicesList:
 		newTuple = (value, value);
 		CHOICES.append(newTuple);
-
 	receiver = forms.CharField(label="Who would you like to send it to?", widget=forms.Select(choices=CHOICES))
