@@ -1,0 +1,54 @@
+{% extends "message/base.html" %}
+{% block content %}
+	{% for message in allMessages %}
+		<article class="media content-section">
+		  <div class="media-body">
+		    <div class="article-metadata">
+		    </div>
+		     <small class="text-muted">Time sent:{{ message.timeSent }}</small>
+		     <small class="text-muted">Sent by: {{ message.sender.name }}</small>
+		  	 <small class="text-muted">Sent to: {{ message.receiver.name }}</small>
+		    <p class="article-content">{{ message.message }}</p>
+		  </div>
+
+		</article>
+	{% endfor %}
+
+	<div>
+		<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4">Send a Message</legend>
+			{{ sendForm }}
+		</fieldset>
+		<div class="form-group">
+			<button class="btn btn-outline-info" type="submit">
+				Send
+			</button>
+		</div>
+    </form>
+	</div>
+	  
+	{% if is_paginated %}
+		<div class="d-flex justify-content-center">
+		{% if page_obj.has_previous %}
+			<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+			<a class="btn btn-outline-info mb-4" href="?page={{page_obj.previous_page_number}}">Previous</a>
+		{% endif %}
+
+		{% for num in page_obj.paginator.page_range %}
+			{% if page_obj.number == num %}
+				<a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+			{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+				<a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+			{% endif %}
+		{% endfor %}
+
+		{% if page_obj.has_next %}
+			<a class="btn btn-outline-info mb-4" href="?page={{page_obj.next_page_number}}">Next</a>
+			<a class="btn btn-outline-info mb-4" href="?page={{page_obj.paginator.num_pages}}">Last</a>
+		{% endif %}
+		</div>
+	{% endif %}
+	
+{% endblock content %}
