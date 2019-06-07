@@ -13,6 +13,7 @@ def home(request):
 		redirect('login')
 
 	getMessages = requests.get('http://localhost:3000/api/messages')
+	getMessages = getMessages.json();
 	getUsers = User.objects.all()
 
 	if (request.method == 'POST'):
@@ -46,12 +47,21 @@ def home(request):
 			else:
 				messages.error(request, f'Message was not sent successfully')
 			return redirect('message-home')
+	elif (request.method == 'GET'):
+		name = request.GET.get('name')
+		result = []
+		for message in getMessages:
+			if (name == message['sender']['name']) or (name == message['receiver']['name']):
+				result.append(message);
+		getMessages = result;
+		form = SendMessageForm()
+
 	else:
 		form = SendMessageForm()
 
 	context = {
 		'sendForm' : form,
-		'allMessages' : getMessages.json(),
+		'allMessages' : getMessages,
 		'allUsers' : getUsers
 	}
 

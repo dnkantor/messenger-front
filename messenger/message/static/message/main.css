@@ -73,8 +73,30 @@ a.article-title:hover {
 }
 
 .account-img {
+  height: 50px;
+  width: 50px;
   margin-right: 20px;
   margin-bottom: 16px;
+}
+
+.btn {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  width: auto;
+}
+
+/* Green */
+.default {
+  border-color: #e7e7e7;
+  color: black;
+}
+
+.default:hover {
+  background: #e7e7e7;
 }
 
 .account-heading {

@@ -1,18 +1,14 @@
 {% extends "message/base.html" %}
 {% load crispy_forms_tags %}
 {% block users %}
-	<div>
+	<form method="GET" class="btn-group-vertical btn-block">
 	{% for user in allUsers %}
-		<article class="media content-section">
-		  <div class="media-body">
-		    <div class="article-metadata">
-		    </div>
+		<button class="btn default" type="submit" name="name" value="{{user.username}}">
 		    <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-		     <small class="text-muted">User Name:{{ user.username }}</small>
-		  </div>
-		</article>
+		     <big class="text-muted">{{ user.username }}</big>
+		</button>
 	{% endfor %}
-	</div>
+	</form>
 {% endblock users %}
 {% block content %}
 	{% for message in allMessages %}
